@@ -28,6 +28,7 @@ Deploying an agent is as simple as running a one-liner. The difficulty comes in 
 # Agent Troubleshooting
 
 The following commands are useful when troubleshooting AlienVault Agent connectivity.
+Note: On older Windows agents, the AlienVault Agent command script may be located under C:\Program Data\osquery.
 
 ## Restart Agent
 
@@ -51,6 +52,18 @@ C:\Program Files\osquery\alienvault-agent.ps1 force-update
 Linux:
 ```
 /usr/bin/alienvault-agent.sh force-update
+```
+
+## Uninstall Agent
+
+Windows:
+```
+C:\Program Files\osquery\alienvault-agent.ps1 uninstall
+```
+
+Linux:
+```
+/usr/bin/alienvault-agent.sh force-update uninstall
 ```
 
 ## Gather Troubleshooting Information
