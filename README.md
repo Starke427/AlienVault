@@ -25,3 +25,54 @@ Deploying an agent is as simple as running a one-liner. The difficulty comes in 
 
 ## Bash Deployment
 
+# Agent Troubleshooting
+
+The following commands are useful when troubleshooting AlienVault Agent connectivity.
+
+## Restart Agent
+
+Windows:
+```
+C:\Program Files\osquery\alienvault-agent.ps1 restart
+```
+
+Linux:
+```
+/usr/bin/alienvault-agent.sh restart
+```
+
+## Reinstall Agent
+
+Windows:
+```
+C:\Program Files\osquery\alienvault-agent.ps1 force-update
+```
+
+Linux:
+```
+/usr/bin/alienvault-agent.sh force-update
+```
+
+## Gather Troubleshooting Information
+
+Windows:
+```
+C:\Program Files\osquery\alienvault-agent.ps1 version
+```
+```
+C:\Program Files\osquery\alienvault-agent.ps1 report
+```
+```
+C:\Program Files\osquery\alienvault-agent.ps1 osqueryi
+```
+
+Linux:
+```
+/usr/bin/alienvault-agent.sh version
+```
+```
+/usr/bin/alienvault-agent.sh report
+```
+```
+/usr/bin/alienvault-agent.sh osqueryi
+```
