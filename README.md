@@ -25,6 +25,8 @@ Deploying an agent is as simple as running a one-liner. The difficulty comes in 
 
 ## Bash Deployment
 
+---
+
 # NXlog/Sysmon Deployment
 
 For environments that require file integrity monitoring, it is recommended that you install NXlog to serve as a syslog forwarder of Windows Eventlog, and Sysmon, to provide FIM to your Windows Eventlog. The provided nxlog.conf will configure your Windows host to forward Application, System, Security, and Sysmon eventlogs along with any IIS, SQL, or local firewall events. The sysmon deployment [here](https://github.com/Starke427/Sysmon-Configs) can be leveraged to provide file integrity, registry, and dns monitoring.
@@ -37,6 +39,7 @@ NXlog Community Edition can be downloaded here: https://nxlog.co/products/nxlog-
 
 The nxlog.conf will need to be modified; change CHANGEME to your USM Anywhere sensor's IP. Then download the configuration and place it at C:\Program Files (x86)\nxlog\conf\nxlog.conf and restart the NXlog service.
 
+---
 
 # Agent Troubleshooting
 
