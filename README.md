@@ -55,6 +55,7 @@ In this case, all we need is the multi-asset installation script saved as a .ps1
 > Script Parameters: -Noninteractive -ExecutionPolicy Bypass –Noprofile -file %~dp0MyPSScript.ps1
 
 Note: %~dp0 references the SYSVOL directory where your script has been copied to.
+
 8. To correctly run PowerShell scripts during computer startup, you need to configure the delay time before scripts launch using the policy in the Computer Configuration -> Administrative Templates -> System -> Group Policy section. Enable the “Configure Logon Script Delay” policy and specify a delay in minutes before starting the logon scripts (sufficient to complete the initialization and load all necessary services). It is usually enough to set up here for 1-2 minutes.
 9. Close the Group Policy snap-in, click OK, and then close the Active Directory Users and Computers snap-in.
 10. When the client computer starts, the managed software package is automatically installed.
