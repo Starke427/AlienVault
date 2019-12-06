@@ -44,11 +44,8 @@ In this case, all we need is the multi-asset installation script saved as a .ps1
 2. In the console tree, right-click your domain, and then click Properties.
 3. Click the Group Policy tab, select the policy that you want, and then click Edit.
 4. Under Computer Configuration, expand Windows Settings.
-
-#### To run unsigned PowerShell Scripts
-
 5. Right-click Scripts (Startup/Shutdown), select Startup policy and click on the first tab for Scripts.
-6. Click Show Files and drag the script into the opened File Explorer window to copy the Powershell script to the domain controller. 
+6. Click Show Files and drag the script into the opened File Explorer window to copy the Powershell script to the domain controller. Ensure that the Domain Computer's group has read access.
 7. Now click Add and add the following for your script name and parameters:
 > Script Name: %windir%\System32\WindowsPowerShell\v1.0\powershell.exe
 
@@ -60,17 +57,44 @@ Note: %~dp0 references the SYSVOL directory where your script has been copied to
 9. Close the Group Policy snap-in, click OK, and then close the Active Directory Users and Computers snap-in.
 10. When the client computer starts, the managed software package is automatically installed.
 
-#### To run signed PowerShell Scripts
-5. Right-click Scripts (Startup/Shutdown), select Startup policy and click on the second tab for PowerShell Scripts.
-6. Click Show Files and drag the script into the opened File Explorer window. Copy the Powershell script to the domain controller. 
-7. Now click Add and add the copied PowerShell script to the list of scripts to be run by the PowerShell policy.
-8. To correctly run PowerShell scripts during computer startup, you need to configure the delay time before scripts launch using the policy in the Computer Configuration -> Administrative Templates -> System -> Group Policy section. Enable the “Configure Logon Script Delay” policy and specify a delay in minutes before starting the logon scripts (sufficient to complete the initialization and load all necessary services). It is usually enough to set up here for 1-2 minutes.
-9. By default, Windows security settings do not allow running PowerShell scripts. The current value of the PowerShell script execution policy setting can be obtained using the Get-ExecutionPolicy cmdlet. If the policy is not configured, the command will return Restricted (any scripts are blocked). The security settings for running the PowerShell script can be configured via the “Turn On Script Execution” policy (in the GPO Computer Configuration section -> Administrative Templates -> Windows Components -> Windows PowerShell). Set this value to: Allow only signed scripts (AllSigned).
-10. Close the Group Policy snap-in, click OK, and then close the Active Directory Users and Computers snap-in.
-11. When the client computer starts, the managed software package is automatically installed.
-
-
 ## SCCM Deployment
+
+### Prepare the installation script
+
+Save the multi-asset installation script as a .ps1 and place it on a network share. It will automatically download, install, and sync the Alienvault agent with your USM Anywhere deployment. Do keep in mind that the agent version is hard-coded into this script and the script should be updated on a regular, scheduled interval to ensure the latest agent versions are pushed out to your environment. Currently, the AlienVault agent does not support auto-updating. Also, ensure the Domain Computer's group has read access to the script on the share.
+
+### Create a package
+
+Using the Create Package or Program Wizard, specify the following:
+> Command line: Powershell.exe -Noninteractive -ExecutionPolicy Bypass -file \\share\MyPSScript.ps1
+
+> Run: Hidden
+
+> Program can run: Whether or not a user is logged in.
+
+> Run mode: Run with administrator rights.
+
+### Deploy the package
+
+1. In the Configuration Manager console, go to the Software Library workspace, expand Application Management, and select the Packages node.
+
+2. Select the package that you want to deploy. In the Home tab of the ribbon, in the Deployment group, choose Deploy.
+
+3. On the General page of the Deploy Software Wizard, specify the name of the package and program that you want to deploy. Select the collection to which you want to deploy the package and program, and any optional comments.
+
+To store the package content on the collection's default distribution point group, select the option to Use default distribution point groups associated to this collection. If you didn't associate this collection with a distribution point group, this option is unavailable.
+
+4. On the Content page, choose Add. Select the distribution points or distribution point groups to which you want to distribute the content for this package and program.
+
+5. On the Deployment Settings page, configure the following settings:
+> Purpose: Required
+
+6. On the Scheduling page, configure when to deploy this package and program to client devices.
+
+7. Configure the rerun behavior as follows:
+> Always rerun program	
+
+8. Complete the wizard.
 
 ## Bash Deployment
 
