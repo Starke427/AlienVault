@@ -76,6 +76,8 @@ Note: %~dp0 references the SYSVOL directory where your script has been copied to
 
 The following script can be used for running remote commands on a list of provided IPs or FQDNs. For simplicity of deploying our Alienvault agents, just use the multi-asset deployment script as the command. Just keep in mind, there is a seperate deployment script for CentOS/RHEL (RPM) and Ubuntu/Debian (DEB). You will need to use two seperate host lists based on compatible operating systems.
 
+To help distribute keys to remote hosts you can leverage my script [here](https://raw.githubusercontent.com/Starke427/Ansible/master/distribute_keys.sh).
+
 ```
 #!/bin/bash
 
