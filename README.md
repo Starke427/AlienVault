@@ -71,9 +71,34 @@ Note: %~dp0 references the SYSVOL directory where your script has been copied to
 
 ## SCCM Deployment
 
-## PowerShell Deployment
-
 ## Bash Deployment
+
+The following script can be used for running remote commands on a list of provided IPs or FQDNs. For simplicity of deploying our Alienvault agents, just use the multi-asset deployment script as the command. Just keep in mind, there is a seperate deployment script for CentOS/RHEL (RPM) and Ubuntu/Debian (DEB). You will need to use two seperate host lists based on compatible operating systems.
+
+```
+#!/bin/bash
+
+# Script for running remote commands on a list of provided hosts.
+
+cat << EOF
+This script can help automate running remote commands across Linux environments.
+
+Prerequisites:
+The local user must have ssh key authentication set up for accessing the remote systems.
+The username provided must have sudoer privileges on the remote systems.
+The host list must be a single-line list of IPs or FQDNs.
+
+EOF
+read -p 'What username will be used for remote connections? ' user
+echo ""
+read -p 'What is the full path to your host list? ' hostlist
+echo ""
+read -p 'What command would you like to run on the remote system? ' command
+
+for host in $hostlist; do
+  ssh $user@$host '$command'
+done
+```
 
 ---
 
