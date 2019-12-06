@@ -19,6 +19,56 @@ Deploying an agent is as simple as running a one-liner. The difficulty comes in 
 
 ## Group Policy Deployment
 
+Group Policy allows you to run various script files at a computer startup/shutdown or during user logon/logout. You can use GPOs not only to run classic batch files on a domain computers (.bat, .cmd, .vbs), but also to execute PowerShell scripts (.ps1) during Startup/Shutdown/Logon/Logoff.
+
+Note - the GPO will only run when a computer starts. If your computers aren't restarted often, we recommended using SCCM or Ansible instead, if possible.
+
+### Prepare the installation script
+
+In this case, all we need is the multi-asset installation script saved as a .ps1. It will automatically download, install, and sync the Alienvault agent with your USM Anywhere deployment. Do keep in mind that the agent version is hard-coded into this script and the script should be updated on a regular, scheduled interval to ensure the latest agent versions are pushed out to your environment. Currently, the AlienVault agent does not support auto-updating.
+
+### Create a GPO
+
+1. Start the Active Directory Users and Computers snap-in. To do this, click Start, point to Administrative Tools, and then click Active Directory Users and Computers.
+2. In the console tree, right-click your domain, and then click Properties.
+3. Click the Group Policy tab, and then click New.
+4. Type a name for this new policy (for example, AlienVault Agent Distribution), and then press Enter.
+5. Click Properties, and then click the Security tab.
+6. Clear the Apply Group Policy check box for the security groups that you don't want this policy to apply to. 
+7. Select the Apply Group Policy check box for the groups that you want this policy to apply to.
+8. When you are finished, click OK.
+
+### Assign the script
+
+1. Start the Active Directory Users and Computers snap-in. To do this, click Start, point to Administrative Tools, and then click Active Directory Users and Computers.
+2. In the console tree, right-click your domain, and then click Properties.
+3. Click the Group Policy tab, select the policy that you want, and then click Edit.
+4. Under Computer Configuration, expand Windows Settings.
+
+#### To run unsigned PowerShell Scripts
+
+5. Right-click Scripts (Startup/Shutdown), select Startup policy and click on the first tab for Scripts.
+6. Click Show Files and drag the script into the opened File Explorer window to copy the Powershell script to the domain controller. 
+7. Now click Add and add the following for your script name and parameters:
+> Script Name: %windir%\System32\WindowsPowerShell\v1.0\powershell.exe
+
+> Script Parameters: -Noninteractive -ExecutionPolicy Bypass –Noprofile -file %~dp0MyPSScript.ps1
+
+Note: %~dp0 references the SYSVOL directory where your script has been copied to.
+8. To correctly run PowerShell scripts during computer startup, you need to configure the delay time before scripts launch using the policy in the Computer Configuration -> Administrative Templates -> System -> Group Policy section. Enable the “Configure Logon Script Delay” policy and specify a delay in minutes before starting the logon scripts (sufficient to complete the initialization and load all necessary services). It is usually enough to set up here for 1-2 minutes.
+9. Close the Group Policy snap-in, click OK, and then close the Active Directory Users and Computers snap-in.
+10. When the client computer starts, the managed software package is automatically installed.
+
+#### To run signed PowerShell Scripts
+5. Right-click Scripts (Startup/Shutdown), select Startup policy and click on the second tab for PowerShell Scripts.
+6. Click Show Files and drag the script into the opened File Explorer window. Copy the Powershell script to the domain controller. 
+7. Now click Add and add the copied PowerShell script to the list of scripts to be run by the PowerShell policy.
+8. To correctly run PowerShell scripts during computer startup, you need to configure the delay time before scripts launch using the policy in the Computer Configuration -> Administrative Templates -> System -> Group Policy section. Enable the “Configure Logon Script Delay” policy and specify a delay in minutes before starting the logon scripts (sufficient to complete the initialization and load all necessary services). It is usually enough to set up here for 1-2 minutes.
+9. By default, Windows security settings do not allow running PowerShell scripts. The current value of the PowerShell script execution policy setting can be obtained using the Get-ExecutionPolicy cmdlet. If the policy is not configured, the command will return Restricted (any scripts are blocked). The security settings for running the PowerShell script can be configured via the “Turn On Script Execution” policy (in the GPO Computer Configuration section -> Administrative Templates -> Windows Components -> Windows PowerShell). Set this value to: Allow only signed scripts (AllSigned).
+10. Close the Group Policy snap-in, click OK, and then close the Active Directory Users and Computers snap-in.
+11. When the client computer starts, the managed software package is automatically installed.
+
+
 ## SCCM Deployment
 
 ## PowerShell Deployment
