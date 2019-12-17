@@ -152,7 +152,7 @@ Note: On older Windows agents, the AlienVault Agent command script may be locate
 
 Windows:
 ```
-C:\Program Files\osquery\alienvault-agent.ps1 restart
+powershell -noninteractive -executionpolicy bypass -file "C:\Program Files\osquery\alienvault-agent.ps1" restart
 ```
 
 Linux:
@@ -164,7 +164,7 @@ Linux:
 
 Windows:
 ```
-C:\Program Files\osquery\alienvault-agent.ps1 force-update
+powershell -noninteractive -executionpolicy bypass -file "C:\Program Files\osquery\alienvault-agent.ps1" force-update
 ```
 
 Linux:
@@ -176,7 +176,7 @@ Linux:
 
 Windows:
 ```
-C:\Program Files\osquery\alienvault-agent.ps1 uninstall
+powershell -noninteractive -executionpolicy bypass -file "C:\Program Files\osquery\alienvault-agent.ps1" uninstall
 ```
 
 Linux:
@@ -188,13 +188,13 @@ Linux:
 
 Windows:
 ```
-C:\Program Files\osquery\alienvault-agent.ps1 version
+powershell -noninteractive -executionpolicy bypass -file "C:\Program Files\osquery\alienvault-agent.ps1" version
 ```
 ```
-C:\Program Files\osquery\alienvault-agent.ps1 report
+powershell -noninteractive -executionpolicy bypass -file "C:\Program Files\osquery\alienvault-agent.ps1" report
 ```
 ```
-C:\Program Files\osquery\alienvault-agent.ps1 osqueryi
+powershell -noninteractive -executionpolicy bypass -file "C:\Program Files\osquery\alienvault-agent.ps1" osqueryi
 ```
 
 Linux:
