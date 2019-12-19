@@ -139,7 +139,7 @@ NXlog Community Edition can be downloaded here: https://nxlog.co/products/nxlog-
 
 ## Configure NXlog CE
 
-The nxlog.conf will need to be modified; change CHANGEME to your USM Anywhere sensor's IP. Then download the configuration and place it at C:\Program Files (x86)\nxlog\conf\nxlog.conf and restart the NXlog service.
+The nxlog.conf (on this GitHub) will need to be modified; change CHANGEME to your USM Anywhere sensor's IP. Then download the configuration and place it at C:\Program Files (x86)\nxlog\conf\nxlog.conf and restart the NXlog service.
 
 ---
 
