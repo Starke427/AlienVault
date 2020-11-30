@@ -129,9 +129,7 @@ done
 
 ---
 
-# NXlog/Sysmon Deployment
-
-For environments that require file integrity monitoring, it is recommended that you install NXlog to serve as a syslog forwarder of Windows Eventlog, and Sysmon, to provide FIM to your Windows Eventlog. The provided nxlog.conf will configure your Windows host to forward Application, System, Security, and Sysmon eventlogs along with any IIS, SQL, Exchange and local firewall events. The sysmon deployment [here](https://github.com/Starke427/Sysmon-Configs) can be leveraged to provide file integrity, registry, and dns monitoring.
+c
 
 ## Download NXlog CE
 
@@ -207,3 +205,9 @@ Linux:
 ```
 /usr/bin/alienvault-agent.sh osqueryi
 ```
+
+# USM Anywhere Cold Storage Log Parser
+
+This script is intended for handling the decompression and analysis of USM Anywhere archived log data.
+
+Once the compressed log folder has been downloaded and unzipped, this script will gunzip each individual log file within that specified directory, remove the .gz files, analyze the logs for a specific pattern and output the matching logs to the specified output file. Once complete, if uncommented , it will remove the .log files leaving only the extracted, matching log files.
